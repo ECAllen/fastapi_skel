@@ -1,17 +1,25 @@
-from sqlalchemy import func
-from sqlalchemy.orm import Mapped, mapped_column 
-from crud import Base
-from datetime import datetime
+from typing import Optional
+from sqlmodel import Field, SQLModel, create_engine
 
-class User(Base):
-    __tablename__ = "users"
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True, index=True)
-    username: Mapped[str] = mapped_column(index=True, unique= True)
-    email: Mapped[str] = mapped_column(index=True, unique=True)
-    hashed_password: Mapped[str]
-    dob: Mapped[datetime] = mapped_column(insert_default=func.now())
-    
-    def __repr__(self):
-        return f"<User(id={self.id}, username={self.username}, email={self.email}, dob={self.dob})>"
 
+class Task(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    name: str
+    description: str
+    status: int 
+
+
+class Project(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    name: str
+    description: str
+    status: str
+    start_date: int
+
+
+class User(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    username: str
+    email: str
+    hashed_password: str
 
